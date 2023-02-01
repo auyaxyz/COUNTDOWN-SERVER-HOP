@@ -1,0 +1,130 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Countdown = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Countdown.Name = "Countdown"
+Countdown.Parent = ScreenGui
+Countdown.Active = true
+Countdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Countdown.BackgroundTransparency = 1.000
+Countdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Countdown.Position = UDim2.new(0.36608094, 0, 0.0333969444, 0)
+Countdown.Size = UDim2.new(0, 200, 0, 50)
+Countdown.Font = Enum.Font.SourceSans
+Countdown.Text = "00:30"
+Countdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+Countdown.TextScaled = true
+Countdown.TextSize = 33.000
+Countdown.TextWrapped = true
+
+-- Scripts:
+
+local function WFVZAXR_fake_script() -- Countdown.LocalScript 
+	local script = Instance.new('LocalScript', Countdown)
+
+	local rep = game:GetService("ReplicatedStorage")
+	local minutes = rep:WaitForChild("Minutes")
+	local seconds = rep:WaitForChild("Seconds")
+	local text = script.Parent
+	
+	if seconds.Value <= 9 then
+		text.Text = tostring(minutes.Value)..":0"..tostring(seconds.Value)
+	else
+		text.Text = tostring(minutes.Value)..":"..tostring(seconds.Value)
+	end
+	
+	minutes:GetPropertyChangedSignal("Value"):Connect(function()
+		if seconds.Value <= 9 then
+			text.Text = tostring(minutes.Value)..":0"..tostring(seconds.Value)
+		else
+			text.Text = tostring(minutes.Value)..":"..tostring(seconds.Value)
+		end
+	end)
+	
+	seconds:GetPropertyChangedSignal("Value"):Connect(function()
+		if seconds.Value <= 9 then
+			text.Text = tostring(minutes.Value)..":0"..tostring(seconds.Value)
+		else
+			text.Text = tostring(minutes.Value)..":"..tostring(seconds.Value)
+		end
+	end)
+end
+coroutine.wrap(WFVZAXR_fake_script)()
+local function REDB_fake_script() -- Countdown.Script 
+	local script = Instance.new('Script', Countdown)
+
+	Time = 20 -- seconds
+	repeat wait() until game:IsLoaded()
+	wait(Time)
+	local PlaceID = game.PlaceId
+	local AllIDs = {}
+	local foundAnything = ""
+	local actualHour = os.date("!*t").hour
+	local Deleted = false
+	function TPReturner()
+		local Site;
+		if foundAnything == "" then
+			Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+		else
+			Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+		end
+		local ID = ""
+		if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+			foundAnything = Site.nextPageCursor
+		end
+		local num = 0;
+		for i,v in pairs(Site.data) do
+			local Possible = true
+			ID = tostring(v.id)
+			if tonumber(v.maxPlayers) > tonumber(v.playing) then
+				for _,Existing in pairs(AllIDs) do
+					if num ~= 0 then
+						if ID == tostring(Existing) then
+							Possible = false
+						end
+					else
+						if tonumber(actualHour) ~= tonumber(Existing) then
+							local delFile = pcall(function()
+								delfile("NotSameServers.json")
+								AllIDs = {}
+								table.insert(AllIDs, actualHour)
+							end)
+						end
+					end
+					num = num + 1
+				end
+				if Possible == true then
+					table.insert(AllIDs, ID)
+					wait()
+					pcall(function()
+						writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+						wait()
+						game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+					end)
+					wait(4)
+				end
+			end
+		end
+	end
+	
+	function Teleport()
+		while wait() do
+			pcall(function()
+				TPReturner()
+				if foundAnything ~= "" then
+					TPReturner()
+				end
+			end)
+		end
+	end
+end
+coroutine.wrap(REDB_fake_script)()
