@@ -4,32 +4,29 @@
 -- Instances:
 
 local ScreenGui = Instance.new("ScreenGui")
-local Countdown = Instance.new("TextLabel")
+local TextLabel = Instance.new("TextLabel")
 
 --Properties:
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-Countdown.Name = "Countdown"
-Countdown.Parent = ScreenGui
-Countdown.Active = true
-Countdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Countdown.BackgroundTransparency = 1.000
-Countdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Countdown.Position = UDim2.new(0.36608094, 0, 0.0333969444, 0)
-Countdown.Size = UDim2.new(0, 200, 0, 50)
-Countdown.Font = Enum.Font.SourceSans
-Countdown.Text = "00:30"
-Countdown.TextColor3 = Color3.fromRGB(255, 255, 255)
-Countdown.TextScaled = true
-Countdown.TextSize = 33.000
-Countdown.TextWrapped = true
+TextLabel.Parent = ScreenGui
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(27, 42, 53)
+TextLabel.Position = UDim2.new(0.36608094, 0, 0.0524809174, 0)
+TextLabel.Size = UDim2.new(0, 200, 0, 50)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "00:20"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 66.000
+TextLabel.TextStrokeTransparency = 0.000
 
 -- Scripts:
 
-local function WFVZAXR_fake_script() -- Countdown.LocalScript 
-	local script = Instance.new('LocalScript', Countdown)
+local function LNKDIBV_fake_script() -- TextLabel.LocalScript 
+	local script = Instance.new('LocalScript', TextLabel)
 
 	local rep = game:GetService("ReplicatedStorage")
 	local minutes = rep:WaitForChild("Minutes")
@@ -58,9 +55,9 @@ local function WFVZAXR_fake_script() -- Countdown.LocalScript
 		end
 	end)
 end
-coroutine.wrap(WFVZAXR_fake_script)()
-local function REDB_fake_script() -- Countdown.Script 
-	local script = Instance.new('Script', Countdown)
+coroutine.wrap(LNKDIBV_fake_script)()
+local function YIVNK_fake_script() -- ScreenGui.Script 
+	local script = Instance.new('Script', ScreenGui)
 
 	Time = 20 -- seconds
 	repeat wait() until game:IsLoaded()
@@ -127,4 +124,4 @@ local function REDB_fake_script() -- Countdown.Script
 		end
 	end
 end
-coroutine.wrap(REDB_fake_script)()
+coroutine.wrap(YIVNK_fake_script)()
